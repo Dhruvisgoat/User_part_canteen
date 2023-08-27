@@ -8,15 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
-*.local
-# Ignore Firebase config files
-.firebase
 
-# Ignore GitHub Actions workflow files
-.github/workflows/
-# Editor directories and files
+
+*.local
+
 .vscode/*
 !.vscode/extensions.json
 .idea
