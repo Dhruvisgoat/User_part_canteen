@@ -41,6 +41,10 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  const totalPrice = () => {
+    return cart.reduce((total, item) => total + parseFloat(item.Price) * item.count, 0);
+  };
+
   const handleClearCart = () => {
     setCart([]);
     console.log('cleared cart');
@@ -56,7 +60,8 @@ export const CartProvider = ({ children }) => {
     cart,
     handleAddToCart,
     handleSubtractToCart,
-    handleClearCart 
+    handleClearCart,
+    totalPrice 
   };
 
   return (

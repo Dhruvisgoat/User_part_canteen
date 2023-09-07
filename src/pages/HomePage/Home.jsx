@@ -29,8 +29,9 @@ import Checkout from '../Checkout/components/Checkout';
 import CitySection from './components/CitySection';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
-import {IconButton} from '@mui/material';
+import { IconButton } from '@mui/material';
 import UserSettings from './Sections/Setting/UserSettings';
+import { AddressProvider } from '../Checkout/components/context/adresscontext';
 
 const drawerWidth = 240;
 
@@ -109,7 +110,7 @@ export default function Home() {
     const newDarkMode = !isDarkMode;
     setIsDarkMode(newDarkMode);
     localStorage.setItem('darkMode', newDarkMode.toString());
-    };
+  };
 
   const theme2 = createTheme({
     palette: {
@@ -169,26 +170,33 @@ export default function Home() {
 
               </Toolbar>
             </AppBar>
-            <DrawerHeader />
-            <Box component="main" sx={{ flexGrow: 1, minWidth: '100%' }}>
-              <Routes>
-                <Route path="/" element={<LandingPage />}></Route>
-                <Route path="/cart" element={<CartSection />}></Route>
-                <Route path="/menu" element={<MenuSection />}></Route>
-                <Route path="/orders" element={<OrdersSection />}></Route>
-                <Route path="/profile" element={<ProfileSection />}></Route>
-                <Route path="/notifications" element={<NotificationsSection />}></Route>
-                <Route path="/delivery" element={<DeliverySection />}></Route>
-                <Route path="/checkout" element={<Checkout />}></Route>
-                <Route path="/settings" element={<UserSettings/>}></Route>
 
-              </Routes>
-              <CitySection />
-              <Footer></Footer>
-            </Box>
+            <DrawerHeader />
+            <AddressProvider>
+
+              <Box component="main" sx={{ flexGrow: 1, minWidth: '100%' }}>
+                <Box sx={{ minHeight: '100vh' }}>
+                  <Routes >
+                    <Route path="/" element={<LandingPage />}></Route>
+                    <Route path="/cart" element={<CartSection />}></Route>
+                    <Route path="/menu" element={<MenuSection />}></Route>
+                    <Route path="/orders" element={<OrdersSection />}></Route>
+                    <Route path="/profile" element={<ProfileSection />}></Route>
+                    <Route path="/notifications" element={<NotificationsSection />}></Route>
+                    <Route path="/delivery" element={<DeliverySection />}></Route>
+                    <Route path="/checkout" element={<Checkout />}></Route>
+                    <Route path="/settings" element={<UserSettings />}></Route>
+                  </Routes>
+                </Box>
+
+                <CitySection />
+                <Footer></Footer>
+              </Box>
+            </AddressProvider>
+
           </Box>
           :
-          <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+          <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <Typography variant="h4" gutterBottom>
               Sign In
             </Typography>
@@ -200,7 +208,7 @@ export default function Home() {
             </Button>
           </Container>
         }
-        </ThemeProvider>
+      </ThemeProvider>
     </div>
 
 

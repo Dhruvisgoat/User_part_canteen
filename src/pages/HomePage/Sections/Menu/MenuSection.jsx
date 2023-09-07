@@ -28,6 +28,7 @@ const StyledCardRowContainer = styled(Box)(({ theme }) => ({
 }));
 
 const MenuSection = () => {
+
   const [sortOption, setSortOption] = useState('');
 
   const sortFoodItems = (sortBy) => {
@@ -52,17 +53,10 @@ const MenuSection = () => {
         >
           Price
         </StyledSortButton>
-        <StyledSortButton
-          variant={sortOption === 'quantity' ? 'contained' : 'text'}
-          startIcon={<LocalMallIcon />}
-          onClick={() => sortFoodItems('quantity')}
-        >
-          Quantity
-        </StyledSortButton>
       </StyledSortButtonGroup>
 
       <StyledCardRowContainer>
-        <CardRow title="Specials" />
+      <CardRow title="Specials"  />
         <CardRow title="Desserts" />
         <CardRow title="Salads" />
         {/* Add more CardRow components for other categories if needed */}

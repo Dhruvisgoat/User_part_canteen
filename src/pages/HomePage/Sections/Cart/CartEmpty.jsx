@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import image from '../../../../assets/EmptyCart.png';
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 function CartEmpty() {
     const [imageWidth, setImageWidth] = useState(window.innerWidth >= 768 ? 600 : 400);
+    
+    const navigate = useNavigate();
+    const navigateToMenu = () => {
+        navigate('/home/menu');
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -29,9 +36,15 @@ function CartEmpty() {
                 }}
             />
             <Typography variant="h2">Your Cart is Empty.</Typography>
-            <Typography variant="h6">
+            <Typography variant="h6" sx={{ mt: 3 }}>
                 Add items to your cart from the Menu.
             </Typography>
+            <Button
+                sx ={{ mt: 3 }}
+                onClick ={navigateToMenu}
+            >
+                Back to Menu
+            </Button>
         </div>
     );
 }

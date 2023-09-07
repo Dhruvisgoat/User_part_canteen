@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Container, Typography, Card, CardContent, List, ListItem, ListItemText, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import { db, auth } from '../../../../config/firebase';
+import { addDoc,updateDoc } from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
 
 const ProfileSection = () => {
     const [editOpen, setEditOpen] = useState(false);
     const [editedValue, setEditedValue] = useState('');
     const [sectionName, setSectionName] = useState('');
     const [fieldData, setFieldData] = useState({
-        Name: 'John Doe',
+        Name: 'john doe',
         Email: 'john@example.com',
         Street: '123 Main St',
         City: 'New York',
@@ -24,20 +28,42 @@ const ProfileSection = () => {
         setEditOpen(false);
     };
 
-    const handleEditSave = () => {
-        // Update the field's value in the fieldData object
-        setFieldData((prevData) => ({
-            ...prevData,
-            [sectionName]: editedValue,
-        }));
+    // const handleEditSave = () => {
+    //     // Update the field's value in the fieldData object
+    //     setFieldData((prevData) => ({
+    //         ...prevData,
+    //         [sectionName]: editedValue,
+    //     }));
 
-        // Close the edit dialog
-        setEditOpen(false);
+    //     // Close the edit dialog
+    //     setEditOpen(false);
+    // };
+
+    const handleEditSave = async () => {
+
+        try {
+            // Update the field's value in the fieldData object
+            setFieldData((prevData) => ({
+                [sectionName]: editedValue,
+            }));
+            // Update the field's value in the database
+            const userRef = doc(db, 'Users', auth.currentUser.email );
+            await updateDoc(userRef, {
+                [sectionName]: editedValue
+            });
+
+            // Close the edit dialog
+            setEditOpen(false);
+        }
+        catch (error) {
+            console.log(error);
+        }
     };
+
 
     return (
         <Container maxWidth="md" sx={{ marginTop: 5 }}>
-            <Typography variant="h4" sx={{textAlign:'center'}} gutterBottom>
+            <Typography variant="h4" sx={{ textAlign: 'center' }} gutterBottom>
                 Profile
             </Typography>
             <Card elevation={3}>
@@ -55,7 +81,7 @@ const ProfileSection = () => {
                     </List>
                 </CardContent>
             </Card>
-            <Divider/>
+            <Divider />
             <Card elevation={3}>
                 <CardContent>
                     <Typography variant="h6">Address</Typography>
@@ -77,6 +103,7 @@ const ProfileSection = () => {
                             <Button onClick={() => handleEditOpen('ZipCode', fieldData.ZipCode)}>Edit</Button>
                         </ListItem>
                     </List>
+
                 </CardContent>
             </Card>
             <Dialog open={editOpen} onClose={handleEditClose}>

@@ -3,16 +3,18 @@ import { Container, Typography, Card, CardContent, List, ListItem, ListItemText,
 import { updateDoc, doc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage, db } from '../../../../config/firebase';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { toDate } from 'date-fns'; // Import the date-fns library or another date manipulation library
-
-
-
-
+import { format } from 'date-fns'; // Import the date-fns library for date formatting
 
 
 const OrdersSection = () => {
     const [orders, setOrders] = useState([]);
+
+    const formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp.seconds * 1000); // Convert to milliseconds
+        return format(date, 'MM/dd/yyyy HH:mm:ss'); // Adjust the format as needed
+    };
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -30,33 +32,52 @@ const OrdersSection = () => {
         fetchOrders();
     }, []);
 
+    const today = format(new Date(), 'MM/dd/yyyy');
+
+    // Filter orders to include only those with today's date
+    const todayOrders = orders.filter(order => {
+        const orderDate = formatTimestamp(order.orderDate).split(' ')[0]; // Extract the date part
+        return orderDate === today;
+    });    
 
     return (
-        <Container maxWidth="md" sx={{ marginTop: 10 }}>
+        <Container maxWidth="md" sx={{ marginTop: 5 }}>
             <Typography variant="h4" gutterBottom>
-                Track Current Order
+                Today's Order/s
             </Typography>
-            {/* <Card elevation={3}>
+            <Card elevation={3}>
                 <CardContent>
+                    <Typography variant="h6">Order History</Typography>
                     <List>
-                        {orders.map(order => (
+                        {todayOrders.map(order => (
                             <div key={order.id}>
                                 <ListItem>
                                     <ListItemText
-                                        primary={`Order ID: ${order.id}`}
-                                        secondary={`Estimated Preparation Time: ${order.time}`}
+                                        primary={`Order ID: ${order.orderId}`}
                                     />
                                 </ListItem>
                                 <ListItem>
                                     <ListItemText
                                         primary="Contents:"
-                                        secondary={order.items.map(item => `${item.name} ($${item.price.toFixed(2)}) ($${item.price.toFixed(2)})`).join(', ')}
+                                        secondary={order.Cart.map(item => `${item.Name} (Rs.${item.Price}*${item.count})`).join(' , ')}
                                     />
                                 </ListItem>
                                 <ListItem>
                                     <ListItemText
-                                        primary="Amount Paid:"
-                                        secondary={`$${order.totalAmount}`}
+                                        primary="Order Date & Time:"
+                                        secondary={formatTimestamp(order.orderDate)}
+                                    />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText
+                                        primary="Total Amount Paid:"
+                                        secondary={`Rs.${order.TotalPrice}`}
+                                    />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText
+                                        primary="Order Status"
+                                        secondary='Pending'
                                     />
                                 </ListItem>
                                 <hr />
@@ -64,15 +85,11 @@ const OrdersSection = () => {
                         ))}
                     </List>
                 </CardContent>
-            </Card> */}
+            </Card>
 
             <Divider></Divider>
 
-
-
-
-
-            <Typography variant="h4" sx={{ margin: '30px' }}>
+            <Typography variant="h4" sx={{ marginTop: 5 }}>
                 Past Orders
             </Typography>
 
@@ -81,22 +98,29 @@ const OrdersSection = () => {
                     <Typography variant="h6">Order History</Typography>
                     <List>
                         {orders.map(order => (
+
                             <div key={order.id}>
                                 <ListItem>
                                     <ListItemText
-                                        primary={`Order ID: ${order.id}`}
-                                        secondary={`Date: ${toDate(order.dateTime.seconds * 1000)}, Time: ${order.dateTime.toDate().toLocaleTimeString()}`}                                    />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText
-                                        primary="Contents:"
-                                        secondary={order.items.map(item => `${item.name} ($${item.price.toFixed(2)})`).join(', ')}
+                                        primary={`Order ID: ${order.orderId}`}
                                     />
                                 </ListItem>
                                 <ListItem>
                                     <ListItemText
-                                        primary="Amount Paid:"
-                                        secondary={`$${order.totalAmount}`}
+                                        primary="Contents:"
+                                        secondary={order.Cart.map(item => `${item.Name} (Rs.${item.Price}*${item.count})`).join(' , ')}
+                                    />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText
+                                        primary="Order Date & Time:"
+                                        secondary={formatTimestamp(order.orderDate)}
+                                    />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText
+                                        primary="Total Amount Paid:"
+                                        secondary={`Rs.${order.TotalPrice}`}
                                     />
                                 </ListItem>
                                 <hr />
