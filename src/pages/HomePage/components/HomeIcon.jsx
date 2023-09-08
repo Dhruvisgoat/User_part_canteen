@@ -55,7 +55,7 @@ const HomeIcon = () => {
 
 
     const handleClick = (event) => {
-        Navigate('/home');
+        Navigate('/');
     };
 
     return (

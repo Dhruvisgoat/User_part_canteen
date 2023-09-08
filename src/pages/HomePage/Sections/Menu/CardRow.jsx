@@ -12,9 +12,16 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Skeleton } from '@mui/material';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { styled } from '@mui/material/styles';
+
+
+
+
 const placeholderImageUrl = 'https://via.placeholder.com/150';
 
-function CardRow({ title }) {
+function CardRow({ title, sortOption }) {
   const [imageUrls, setImageUrls] = useState({});
   const [foodList, setFoodList] = useState([]);
   const { cart, handleAddToCart, handleSubtractToCart } = useCart();
@@ -33,6 +40,18 @@ function CardRow({ title }) {
       console.error('Error fetching data:', error);
     }
   };
+
+  useEffect(() => {
+    // Sort the foodList based on the selected sortOption
+    if (sortOption === 'name') {
+      // Sort by food name
+      setFoodList([...foodList].sort((a, b) => a.Name.localeCompare(b.Name)));
+    } else if (sortOption === 'price') {
+      // Sort by food price
+      setFoodList([...foodList].sort((a, b) => a.Price - b.Price));
+    }
+  }, [sortOption]);
+
 
   const fetchImageUrls = async () => {
     const urls = {};
@@ -86,65 +105,69 @@ function CardRow({ title }) {
   return (
     <div>
       <hr />
-      <Typography variant="h4" className='m-3 p-2' sx={{ textAlign: 'center' }}>{title}</Typography>
-      <div className='CardRow' style={{ display: 'flex', overflowX: "auto", minWidth: '100%' }}>
+      <Typography variant="h4" className='m-3 p-2' sx={{ textAlign: 'center', fontFamily: 'Rock Salt ' }}>{title}</Typography>
+      <div className='CardRow' style={{ overflowX: "auto", minWidth: '100%' }}>
 
-        {isLoading ? ( 
-          <>
-            <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-            <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-            <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-            <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-          </>
-        ) : (
-          foodList.map((food) => (
-            <Card key={food.id} sx={{ padding: '10px', flex: '0 0 auto', width: '15rem', margin: '0 10px' }} className='Card'>
-              <CardMedia
-                component="img"
-                height="200"
-                image={imageUrls[food.id] ? imageUrls[food.id] : placeholderImageUrl}
-                alt="no image"
-                sx={{ borderRadius: "20px" }}
-              />
-              <CardContent sx={{ textAlign: 'center' }}>
-                <div>
-                  <Typography variant="h6">{food.Name}</Typography>
-                  <Typography >{`One for ₹ ${food.Price}.00`}</Typography>
-                </div>
-                <CardActions sx={{ justifyContent: 'center' }}>
-                  <Button
-                    size='small'
-                    sx={{ border: '1px solid black', backgroundColor: '#6282BC' }}
-                    variant='contained'
-                    className='m-1'
-                    onClick={() => {
-                      handleAddToCart(food);
-                      increaseCount(food.id);
-                    }}>
-                    +
-                  </Button>
-                  <Button
-                    size='small'
-                    sx={{ border: '1px solid black' }}
-                    className='m-1'>
-                    {foodCounts[food.id] || 0}
-                  </Button>
-                  <Button
-                    size='small'
-                    sx={{ border: '1px solid black', backgroundColor: '#6282BC' }}
-                    className='m-1'
-                    variant='contained'
-                    onClick={() => {
-                      handleSubtractToCart(food.id);
-                      decreaseCount(food.id);
-                    }}>
-                    -
-                  </Button>
-                </CardActions>
-              </CardContent>
+        <div className='CardRow' style={{ display: 'flex', overflowX: 'auto', minWidth: '100%' }}>
 
-            </Card>
-          )))}
+          {isLoading ? (
+            <>
+              <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+              <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+              <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+              <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+            </>
+          ) : (
+            foodList.map((food) => (
+              <Card key={food.id} sx={{ padding: '10px', flex: '0 0 auto', width: '14rem', margin: '0 10px', borderRadius: '30px' }} className='Card'>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={imageUrls[food.id] ? imageUrls[food.id] : placeholderImageUrl}
+                  alt="no image"
+                  sx={{ borderRadius: "20px" }}
+                />
+                <CardContent sx={{ textAlign: 'center' }}>
+                  <div>
+                    <Typography variant="h6">{food.Name}</Typography>
+                    <Typography >{`One for ₹ ${food.Price}.00`}</Typography>
+                  </div>
+                  <CardActions sx={{ justifyContent: 'center' }}>
+                    <Button
+                      size='small'
+                      sx={{ border: '1px solid black', backgroundColor: '#257090' }}
+                      variant='contained'
+                      className='m-1'
+                      onClick={() => {
+                        handleAddToCart(food);
+                        increaseCount(food.id);
+                      }}>
+                      +
+                    </Button>
+                    <Button
+                      size='small'
+                      sx={{ border: '1px solid black' }}
+                      className='m-1'>
+                      {foodCounts[food.id] || 0}
+                    </Button>
+                    <Button
+                      size='small'
+                      sx={{ border: '1px solid black', backgroundColor: '#257090' }}
+                      className='m-1'
+                      variant='contained'
+                      onClick={() => {
+                        handleSubtractToCart(food.id);
+                        decreaseCount(food.id);
+                      }}>
+                      -
+                    </Button>
+                  </CardActions>
+                </CardContent>
+
+              </Card>
+            )))}
+
+        </div>
 
       </div>
     </div>

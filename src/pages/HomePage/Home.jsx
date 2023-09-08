@@ -156,7 +156,7 @@ export default function Home() {
         {loggedIn ?
           <Box >
             <CssBaseline />
-            <AppBar position="fixed" open={open} sx={{ backgroundColor: '#6282BC', zIndex: '1' }}>
+            <AppBar position="fixed" open={open} sx={{ backgroundColor: '#257090', zIndex: '1' }}>
               <Toolbar>
                 <TemporaryDrawer />
                 <ProfileAvatar />

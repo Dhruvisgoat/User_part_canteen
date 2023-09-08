@@ -69,7 +69,7 @@ const ShoppingCartIcon = () => {
     setAnchorEl(null);
   };
 
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const navigateCart = () => {
     navigate('/home/cart');
   };
@@ -98,10 +98,13 @@ const ShoppingCartIcon = () => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem style={underlineStyle} onClick={navigateCart}>Items Added</MenuItem>
+
+        <MenuItem style={underlineStyle} onClick={navigateCart}>
+          {cart.length === 0 ? 'Cart is Empty' : 'Items Added'}
+        </MenuItem>
 
         {cart.map((item) => (
-            <MenuItem key={item.id} onClick={() => { handleClose(); navigateCart(); }} disableRipple>
+          <MenuItem key={item.id} onClick={() => { handleClose(); navigateCart(); }} disableRipple>
             {item.Name} * <b>{item.count}</b>
           </MenuItem>
         ))}

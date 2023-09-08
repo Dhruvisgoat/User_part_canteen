@@ -47,14 +47,14 @@ const CartSection = () => {
                     variant="contained"
                     onClick={() => handleSubtractToCart(item.id)}
                     startIcon={<RemoveIcon />}
-                    style={{ backgroundColor: "#6282BC" }}
+                    style={{ backgroundColor: "#125c79" }}
                   />
                   <Button sx={{ border: '1px solid black', padding: '2px', margin: '10px' }} > X {item.count} </Button>
                   <Button
                     variant="contained"
                     onClick={() => handleAddToCart(item)}
                     endIcon={<AddIcon />}
-                    style={{ backgroundColor: "#6282BC" }}
+                    style={{ backgroundColor: "#257090" }}
                   />
                 </CardActions>
               </Card>

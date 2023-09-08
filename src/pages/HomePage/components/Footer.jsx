@@ -9,7 +9,7 @@ const landingPageStyles = {
 function Footer() {
     return (
         <div style={landingPageStyles} >
-            <section id="contact" style={{ backgroundColor: '#6282BC', color: 'white', paddingTop: '50px' }}>
+            <section id="contact" style={{ backgroundColor: '#257090', color: 'white', paddingTop: '50px' }}>
                 <h1 style={{ marginBottom: '30px' }}><b>Contact Us</b></h1>
                 <div style={{marginBottom:'70px'}}>
                     <p>If you have any questions or inquiries, feel free to reach out to us:</p>

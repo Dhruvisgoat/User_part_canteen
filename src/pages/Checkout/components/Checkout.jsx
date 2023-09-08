@@ -15,7 +15,7 @@ import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { Link } from 'react-router-dom';
 import { AddressProvider } from './context/adresscontext';
-import {db} from '../../../config/firebase'
+import {db,auth} from '../../../config/firebase'
 import { collection } from 'firebase/firestore';
 import { addDoc } from 'firebase/firestore';
 //import from cartContext
@@ -68,16 +68,22 @@ export default function Checkout() {
     if (!orderPlaced) { // Check if the order hasn't been placed yet
       // Create an order object
       const order = {
-        Cart:cart, // Replace with your cart data retrieval logic
+        Cart:cart, 
         TotalPrice: totalPrice(),
-        orderDate: new Date(), // Add the order date
+        orderDate: new Date(), 
         orderId: Math.floor(Math.random() * 1000000), // Add a random order ID (optional)
+        orderedBy:{
+          email:auth.currentUser.email,
+          name:auth.currentUser.displayName,
+        }
       };
   
-      const OrderRef = collection(db, "Orders");
+      const OrderUserRef = collection(db, `Users/${auth.currentUser.email}/orders`);//save to the user's orders database
+      const OrderRef = collection(db, `Orders`);//save to the orders collection of the entire database so that it can be managed by the admin as well 
   
       try {
         await addDoc(OrderRef, order);
+        await addDoc(OrderUserRef, order);
         handleClearCart();
         setOrderPlaced(true); // Set the orderPlaced state to true
         setActiveStep(activeStep + 1);

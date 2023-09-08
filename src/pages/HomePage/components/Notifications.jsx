@@ -71,7 +71,7 @@ const NotificationsIcon = () => {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                <Badge badgeContent={3} color="error"> {/* Replace with your notification count */}
+                <Badge badgeContent={1} color="error"> {/* Replace with your notification count */}
                     <Notifications />
                 </Badge>
             </IconButton>
@@ -86,17 +86,9 @@ const NotificationsIcon = () => {
                 onClose={handleClose}
             >
                 <MenuItem onClick={handleClose} disableRipple>
-                    <HomeIcon />
-                    Home
+                    No New Notifications
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
-                    <PersonIcon />
-                    Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
-                    <SettingsIcon />
-                    Settings
-                </MenuItem>
+                
             </StyledMenu>
         </div>
     );

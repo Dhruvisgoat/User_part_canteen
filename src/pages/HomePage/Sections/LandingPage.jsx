@@ -3,6 +3,8 @@ import { Container, Typography, Link, Paper, Grid } from '@mui/material';
 import OnlineOrdering from '../../../assets/OnlineOrdering.png';
 import OrderTracking from '../../../assets/OrderTracking.png';
 import ContactlessPayment from '../../../assets/ContactlessPayment.png';
+import realtimeordertracking from '../../../assets/realtimeordertracking.png';
+import orderhistory from '../../../assets/orderhistory.png';
 
 const landingPageStyles = {
   fontFamily: 'Arial, sans-serif',
@@ -10,13 +12,14 @@ const landingPageStyles = {
 };
 
 const headerStyles = {
-  backgroundColor: '#6282BC',
+  backgroundColor: '#257090',
   color: 'white',
   padding: '100px 0',
 };
 
 const canteenAppHeaderStyles = {
-  fontSize: '72px', // Increased font size
+  fontFamily: 'Macondo',
+  fontSize: '80px', // Increased font size
   fontWeight: 'bold',
   marginBottom: '10px',
 };
@@ -32,7 +35,7 @@ const ctaButtonStyles = {
   padding: '10px 20px',
   fontSize: '32px',
   backgroundColor: '#f0f0f0',
-  color: '#6282BC',
+  color: '#125c79',
   textDecoration: 'none',
   borderRadius: '5px',
   fontWeight: 'bold',
@@ -41,7 +44,7 @@ const ctaButtonStyles = {
 const ctaButtonHoverStyles = {
   transition: 'background-color 0.3s, color 0.3s',
   ':hover': {
-    backgroundColor: '#6282BC',
+    backgroundColor: '#257090',
     color: 'white',
   },
 };
@@ -71,7 +74,7 @@ const LandingPage = () => {
       <Paper style={headerStyles}>
         <Container maxWidth="md">
           <Typography variant="h1" style={canteenAppHeaderStyles}>
-            Canteen App
+            CANTEEN APP
           </Typography>
           <Typography variant="h4" style={canteenAppSubHeaderStyles}>
             Your Convenient Canteen Management Solution
@@ -86,11 +89,20 @@ const LandingPage = () => {
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} sm={6} md={4}>
             <Paper elevation={3} style={featureCardStyles}>
-              <img src={OnlineOrdering} alt="Feature 1" style={featureImageStyles} />
-              <Typography variant="h5">Online Ordering and Menu Management</Typography>
+              <img src={orderhistory} alt="Feature 1" style={featureImageStyles} />
+              <Typography variant="h5">Order History and Favorites</Typography>
               <Typography variant="body1">
-                Browse our menu, customize your order, and enjoy a seamless online ordering experience.
+                Easy to reorder favorite items or track previous purchases, quick access to frequently ordered meals or beverage.
               </Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <Paper elevation={3} style={featureCardStyles}>
+              <img src={realtimeordertracking} alt="Feature 1" style={featureImageStyles} />
+              <Typography variant="h5">Real-Time Order Tracking:</Typography>
+              <Typography variant="body1">
+                Customers receive notifications or alerts when their orders are ready for pickup or when they are out for delivery              </Typography>
             </Paper>
           </Grid>
 
@@ -104,25 +116,7 @@ const LandingPage = () => {
             </Paper>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper elevation={3} style={featureCardStyles}>
-              <img src={OnlineOrdering} alt="Feature 1" style={featureImageStyles} />
-              <Typography variant="h5">Online Ordering and Menu Management</Typography>
-              <Typography variant="body1">
-                Browse our menu, customize your order, and enjoy a seamless online ordering experience.
-              </Typography>
-            </Paper>
-          </Grid>
-          
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper elevation={3} style={featureCardStyles}>
-              <img src={OnlineOrdering} alt="Feature 1" style={featureImageStyles} />
-              <Typography variant="h5">Online Ordering and Menu Management</Typography>
-              <Typography variant="body1">
-                Browse our menu, customize your order, and enjoy a seamless online ordering experience.
-              </Typography>
-            </Paper>
-          </Grid>
+
 
           <Grid item xs={12} sm={6} md={4}>
             <Paper elevation={3} style={featureCardStyles}>

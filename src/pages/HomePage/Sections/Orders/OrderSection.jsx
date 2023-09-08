@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Typography, Card, CardContent, List, ListItem, ListItemText, Divider } from '@mui/material';
 import { updateDoc, doc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { storage, db } from '../../../../config/firebase';
+import { storage, db ,auth } from '../../../../config/firebase';
 import { useState, useEffect } from 'react';
 import { toDate } from 'date-fns'; // Import the date-fns library or another date manipulation library
 import { format } from 'date-fns'; // Import the date-fns library for date formatting
@@ -11,7 +11,10 @@ import { format } from 'date-fns'; // Import the date-fns library for date forma
 const OrdersSection = () => {
     const [orders, setOrders] = useState([]);
 
-    const formatTimestamp = (timestamp) => {
+    function formatTimestamp(timestamp) {
+        if (!timestamp || !timestamp.seconds) {
+          return "N/A"; // Handle the case when the timestamp is not available
+        }
         const date = new Date(timestamp.seconds * 1000); // Convert to milliseconds
         return format(date, 'MM/dd/yyyy HH:mm:ss'); // Adjust the format as needed
     };
@@ -19,9 +22,9 @@ const OrdersSection = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const ordersCollection = collection(db, 'Orders'); // Replace 'Orders' with your collection name
+                const ordersCollection = collection(db, `/Users/${auth.currentUser.email}/orders`); // Replace 'Orders' with your collection name
+                // const ordersCollection = collection(db, `Orders`); // Replace 'Orders' with your collection name
                 const ordersSnapshot = await getDocs(ordersCollection);
-
                 const ordersData = ordersSnapshot.docs.map(doc => doc.data());
                 setOrders(ordersData);
             } catch (error) {

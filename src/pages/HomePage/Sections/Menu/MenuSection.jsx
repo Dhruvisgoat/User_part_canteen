@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-import CardRow from './Cardrow'; 
+import CardRow from './Cardrow';
 import Button from '@mui/material/Button';
 
 const StyledContainer = styled(Box)(({ theme }) => ({
@@ -31,34 +31,31 @@ const MenuSection = () => {
 
   const [sortOption, setSortOption] = useState('');
 
-  const sortFoodItems = (sortBy) => {
-    setSortOption(sortBy);
-    // Implement your sorting logic here
-  };
-
   return (
     <StyledContainer>
       <StyledSortButtonGroup>
         <StyledSortButton
-          variant={sortOption === 'name' ? 'contained' : 'text'}
           startIcon={<MenuBookIcon />}
-          onClick={() => sortFoodItems('name')}
+          onClick={() => setSortOption('name')}
         >
           Name
         </StyledSortButton>
         <StyledSortButton
-          variant={sortOption === 'price' ? 'contained' : 'text'}
           startIcon={<MonetizationOnIcon />}
-          onClick={() => sortFoodItems('price')}
+          onClick={() => setSortOption('price')}
         >
           Price
         </StyledSortButton>
       </StyledSortButtonGroup>
 
       <StyledCardRowContainer>
-      <CardRow title="Specials"  />
-        <CardRow title="Desserts" />
-        <CardRow title="Salads" />
+        <CardRow title="Specials" sortOption={sortOption}  />
+        <CardRow title="Desserts" sortOption={sortOption}  />
+        <CardRow title="Salads" sortOption={sortOption}  />
+        <CardRow title="Beverages" sortOption={sortOption}  />
+        <CardRow title="Appetizers" sortOption={sortOption}  />
+        <CardRow title="Sides" sortOption={sortOption}  />
+        
         {/* Add more CardRow components for other categories if needed */}
       </StyledCardRowContainer>
     </StyledContainer>

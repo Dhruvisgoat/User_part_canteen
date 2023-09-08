@@ -4,9 +4,10 @@ import CIcon from '@coreui/icons-react';
 import { cilLockLocked } from '@coreui/icons';
 import googleLogo from '../../assets/google-logo.png';
 import './Login.css';
-import { auth, googleProvider } from '../../config/firebase';
+import { auth, googleProvider, db } from '../../config/firebase';
 import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import { doc, addDoc,setDoc,getDocs, getDoc, serverTimestamp,collection, deleteDoc } from 'firebase/firestore'; // Import Firestore functions
 
 const MyLogin = () => {
   const [email, setEmail] = useState('');
@@ -19,6 +20,7 @@ const MyLogin = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
+      handleSuccessfulLogin();
     } catch (error) {
       console.error(err);
     }
@@ -29,9 +31,42 @@ const MyLogin = () => {
     navigate('/otp');
   }
 
-  const handleSuccessfulLogin = () => {
-    navigate('/'); // Redirect the user to the login page
+  const handleSuccessfulLogin = async () => {
+    try {
+      const userUID = auth.currentUser.email;
+      console.log("User UID:", userUID);
+
+      // Check if the user document exists in Firestore
+      const userRef = doc(db, "Users", userUID);
+      const docSnap = await getDoc(userRef);
+
+      if (!docSnap.exists()) {
+        // If the document doesn't exist, create it with user data
+        console.log("Creating user document...");
+        await setDoc(userRef, {
+          name: auth.currentUser.displayName || '',
+          email: auth.currentUser.email || '',
+          address: '',
+          sex: '',
+          createdAt: serverTimestamp(),
+        });
+
+        const ordersCollectionRef = collection(userRef, "orders"); // Reference to the "orders" subcollection
+     
+        await setDoc(ordersCollectionRef, {}); // Use an empty object to create the subcollection
+
+        console.log("User document created.");
+      } else {
+        console.log("User document already exists.");
+      }
+
+      navigate('/'); // Redirect the user to the login page
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+
 
   const emailLogin = async () => {
     try {
