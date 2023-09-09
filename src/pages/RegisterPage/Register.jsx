@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import { CButton, CCard, CCardBody, CCol, CContainer, CForm, CFormInput, CInputGroup, CInputGroupText, CRow } from '@coreui/react';
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCol,
+  CContainer,
+  CForm,
+  CFormInput,
+  CInputGroup,
+  CInputGroupText,
+  CRow,
+} from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilLockLocked, cilUser } from '@coreui/icons';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../../config/firebase';
+import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../../config/firebase';
 import './Register.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,11 +55,35 @@ const Register = () => {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
         console.log('User registered successfully!');
         await updateProfile(user, { displayName: username }); // Add the username to the user object
-        // You can redirect to a different page or show a success message here
-        navigate('/'); // Redirect to the login page using navigate function
+
+        // Check if the user is already registered
+        const isAlreadyRegistered = user && user.emailVerified;
+        
+        if (isAlreadyRegistered) {
+          // User is already registered, redirect to login
+          navigate('/');
+        } else {
+          // User registration is successful
+          // You can redirect to a different page or show a success message here
+          handleSuccessfulRegister();
+        }
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setError('Registration failed. Please try again.');
       }
+    }
+  };
+
+  const handleSuccessfulRegister = async () => {
+    try {
+      // Create user data in Firestore or perform any other actions
+      // ...
+
+      // Redirect the user to the desired page
+      navigate('/'); // Redirect to a welcome or dashboard page
+    } catch (error) {
+      console.error(error);
+      setError('Registration failed. Please try again.');
     }
   };
 
@@ -115,7 +149,7 @@ const Register = () => {
                   </CInputGroup>
                   <div className="d-grid">
                     <CButton color="success" onClick={handleRegister}>
-                      Create Account
+                      Register
                     </CButton>
                   </div>
                 </CForm>
