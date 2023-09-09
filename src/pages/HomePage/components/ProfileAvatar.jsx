@@ -66,14 +66,14 @@ const ProfileAvatar = () => {
 
   const handleLogout = async () => {
     try {
-        await signOut(auth);
-        console.log('User logged out');
-        // Perform any additional logout actions if needed
-        navigate('/');
+      await signOut(auth);
+      console.log('User logged out');
+      // Perform any additional logout actions if needed
+      navigate('/');
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -82,20 +82,18 @@ const ProfileAvatar = () => {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-          if (user) {
-              setUsername(user.displayName); // Retrieve the username from the user object
-          } else {
-              setUsername('');
-          }
-      });
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUsername(user.displayName); // Retrieve the username from the user object
+      } else {
+        setUsername('');
+      }
+    });
 
-      return () => {
-          unsubscribe();
-      };
+    return () => {
+      unsubscribe();
+    };
   }, []);
-
-
 
   return (
     <div>
@@ -106,7 +104,9 @@ const ProfileAvatar = () => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         src="/path/to/avatar-image.jpg"
-        sx={{ cursor: 'pointer' }}
+        sx={{
+          cursor: 'pointer', height: "30px", width: "30px"
+        }}
       />
       <StyledMenu
         id="customized-menu"
@@ -125,8 +125,8 @@ const ProfileAvatar = () => {
           <SettingsIcon />
           Settings
         </MenuItem>
-        <MenuItem  onClick={handleLogout} disableRipple>
-        <LogoutIcon />
+        <MenuItem onClick={handleLogout} disableRipple>
+          <LogoutIcon />
           Logout
         </MenuItem>
       </StyledMenu>

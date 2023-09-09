@@ -16,6 +16,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // Add the ic
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'; // Add the icon import
 import {useNavigate} from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings'; // Add the icon import
+import FavouritesIcon from '@mui/icons-material/Favorite'; // Add the icon import
 export default function TemporaryDrawer() {
   const navigate =useNavigate();
 
@@ -50,6 +51,7 @@ export default function TemporaryDrawer() {
             { text: 'Menu', icon: <MenuBookIcon />,route:"/menu",route:"/home/menu" }, // Use the imported icon
             { text: 'Cart', icon: <ShoppingCartOutlinedIcon />,route:"/home/cart" }, // Use the imported icon
             { text: 'Orders', icon: <ReceiptIcon />,route:"/home/orders" }, // Use the imported icon
+            { text: 'Favourites', icon: <FavouritesIcon />,route:"/home/favourites" }, // Use the imported icon
             { text: 'Notifications', icon: <NotificationsNoneIcon /> ,route:"/home/notifications"}, // Use the imported icon
             { text: 'Profile', icon: <AccountCircleIcon />,route:"/home/profile" }, // Use the imported icon
             { text: 'Delivery', icon: <LocalShippingIcon />,route:"/home/delivery" }, // Use the imported icon

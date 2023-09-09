@@ -50,7 +50,7 @@ const ctaButtonHoverStyles = {
 };
 
 const featuresSectionStyles = {
-  padding: '40px 0',
+  padding: '20px 0',
 };
 
 const featureCardStyles = {

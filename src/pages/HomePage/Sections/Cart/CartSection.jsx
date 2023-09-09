@@ -35,12 +35,13 @@ const CartSection = () => {
           <div>
             <Typography variant='h4' style={{ margin: '40px 0px 0px 0px' }}>Cart </Typography>
             {cart.map((item) => (
-              <Card key={item.id} sx={{ my: 2, mx: 'auto', width: '90%' }}>
+              <Card key={item.id} sx={{ my: 2, mx: 'auto', width: '60%',padding:'20px' }}>
                 <CardContent>
                   <Typography variant="h6" mt={2}>
-                    {item.Name}
+                    Name: {item.Name}
                   </Typography>
                   <Typography variant="body1">Price: Rs. {item.Price}.00</Typography>
+                  <Typography variant="body1">Quantity: {item.count}</Typography>
                 </CardContent>
                 <CardActions style={{ justifyContent: 'center' }}>
                   <Button

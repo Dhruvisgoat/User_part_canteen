@@ -52,8 +52,10 @@ const MyLogin = () => {
         });
 
         const ordersCollectionRef = collection(userRef, "orders"); // Reference to the "orders" subcollection
-     
         await setDoc(ordersCollectionRef, {}); // Use an empty object to create the subcollection
+        
+        const favouritesCollectionRef = collection(userRef, "favourites"); // Reference to the "orders" subcollection
+        await setDoc(favouritesCollectionRef, {}); // Use an empty object to create the subcollection
 
         console.log("User document created.");
       } else {

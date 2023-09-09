@@ -32,6 +32,7 @@ import { ThemeProvider } from '@emotion/react';
 import { IconButton } from '@mui/material';
 import UserSettings from './Sections/Setting/UserSettings';
 import { AddressProvider } from '../Checkout/components/context/adresscontext';
+import Favourites from './Sections/Favourites/Favourites';
 
 const drawerWidth = 240;
 
@@ -151,7 +152,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div >
       <ThemeProvider theme={theme2}>
         {loggedIn ?
           <Box >
@@ -159,15 +160,14 @@ export default function Home() {
             <AppBar position="fixed" open={open} sx={{ backgroundColor: '#257090', zIndex: '1' }}>
               <Toolbar>
                 <TemporaryDrawer />
-                <ProfileAvatar />
-                <div style={{ flexGrow: 1 }} /> {/* Spacing between items */}
                 <HomeIcon />
+                <div style={{ flexGrow: 1 }} /> {/* Spacing between items */}
                 <NotificationsIcon />
                 <ShoppingCartIcon />
                 <IconButton onClick={toggleDarkMode}>
                   {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
                 </IconButton>
-
+                <ProfileAvatar />
               </Toolbar>
             </AppBar>
 
@@ -186,9 +186,9 @@ export default function Home() {
                     <Route path="/delivery" element={<DeliverySection />}></Route>
                     <Route path="/checkout" element={<Checkout />}></Route>
                     <Route path="/settings" element={<UserSettings />}></Route>
+                    <Route path="/favourites" element={<Favourites />}></Route>
                   </Routes>
                 </Box>
-
                 <CitySection />
                 <Footer></Footer>
               </Box>
@@ -209,7 +209,7 @@ export default function Home() {
           </Container>
         }
       </ThemeProvider>
-    </div>
+    </div >
 
 
   );
