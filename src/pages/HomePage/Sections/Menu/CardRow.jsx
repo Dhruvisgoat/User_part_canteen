@@ -145,6 +145,12 @@ function CardRow({ title, sortOption, searchQuery }) {
     }
   };
 
+  const displayAddedCArt = (food) => {
+    // show a prompt to the user
+    alert(`${food.Name} added to cart`);
+  };
+
+
   function capitalizeTitle(title) {
     // Split the title into words
     const words = title.split(' ');
@@ -160,6 +166,7 @@ function CardRow({ title, sortOption, searchQuery }) {
     return capitalizedTitle;
   }
   const hasItems = filteredFoodList.length > 0;
+  const [isImageLoaded, setImageLoaded] = useState(false);
 
   return (
     <div>
@@ -192,13 +199,18 @@ function CardRow({ title, sortOption, searchQuery }) {
                 filteredFoodList.map((food) =>
                 (
                   <Card key={food.id} sx={{ flex: '0 0 auto', width: '15rem', margin: '0 10px', borderRadius: '30px' }} className='Card'>
-                   <CardMedia
+                    <CardMedia
                       component="img"
                       height="150"
-                      image={imageUrls[food.id] ? imageUrls[food.id] : placeholderImageUrl}
+                      src={imageUrls[food.id] }
                       alt="no image"
                       sx={{ borderRadius: "20px" }}
+                      style={{ display: isImageLoaded ? 'block' : 'none' }}
+                      onLoad={() => setImageLoaded(true)}
                     />
+                    {isImageLoaded ? null : (
+                      <Skeleton variant="rectangular" height='150px' sx={{ borderRadius: "20px" }} />
+                    )}
 
                     <CardContent sx={{ textAlign: 'center' }}>
                       <div>
@@ -213,13 +225,14 @@ function CardRow({ title, sortOption, searchQuery }) {
                           onClick={() => {
                             handleAddToCart(food);
                             increaseCount(food.id);
+                            displayAddedCArt(food);
                           }}>
                           Add to Cart
                         </Button>
                         {/* add to favourite  */}
                         <Button
                           size='small'
-                          sx={{ border: '1px solid black',backgroundColor: '#257090' }}
+                          sx={{ border: '1px solid black', backgroundColor: '#257090' }}
                           variant='outlined'
                           className='m-1'
                           onClick={() => addFavourite(food)}>
@@ -232,10 +245,7 @@ function CardRow({ title, sortOption, searchQuery }) {
                   </Card>
                 ))
               )
-
             }
-
-
           </div>
         </div>
       </>
@@ -259,6 +269,11 @@ function CardRow({ title, sortOption, searchQuery }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+
+
+
     </div>
   );
 }

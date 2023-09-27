@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-import CardRow from './Cardrow';
+import CardRow from './Cardrow.jsx';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -37,33 +37,42 @@ const MenuSection = () => {
 
   return (
     <StyledContainer>
-      <h1 style={{ textAlign: 'center' }}>TODAY'S MENU</h1>
+      <h1 style={{ textAlign: 'center' }}>🍕🌮 OUR MENU 🍔🍦</h1>
       <hr></hr>
-      <StyledSortButtonGroup sx={{ marginTop: "20px", height: '10px', justifyContent: 'flex-end', display: 'flex', }}>
-        <Sort sx={{ margin: '10px' }} />
+
+      <StyledSortButtonGroup sx={{ marginTop: "20px", height: '10px', justifyContent: 'flex-end', display: 'flex' }}>
+
         <StyledSortButton
           startIcon={<MenuBookIcon />}
           onClick={() => setSortOption('name')}
+
+          sx={{fontFamily:'Oswald',padding:'7px'}}
         >
           Name
         </StyledSortButton>
         <StyledSortButton
           startIcon={<MonetizationOnIcon />}
           onClick={() => setSortOption('price')}
+          sx={{fontFamily:'Oswald',padding:'7px'}}
+          size="small"
         >
           Price
         </StyledSortButton>
         <TextField
-          label="Search"
-          variant="outlined"
+          
+          label=" 🕵🏻 Search"
+          variant='standard'
           size="small"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{'& label': {
+            fontFamily: 'Oswald',
+          },'& input': {
+            fontFamily: 'Oswald',
+          }, padding:'6px'}}
         />
       </StyledSortButtonGroup>
-      <div style={{ textAlign: 'center' }}>
 
-      </div>
       <StyledCardRowContainer>
         <CardRow title="Specials" sortOption={sortOption} searchQuery={searchQuery} />
         <CardRow title="Desserts" sortOption={sortOption} searchQuery={searchQuery} />

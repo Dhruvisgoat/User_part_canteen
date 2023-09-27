@@ -116,13 +116,9 @@ const MyLogin = () => {
                     </small>
                   </p>
                   <div className="text-center mt-4">
-                    <div>OR</div>
                     <CButton color="light" className="mt-2" onClick={handleGoogleLogin}>
                       <img src={googleLogo} alt="Google Logo" className="google-logo" style={{ height: '20px', marginRight: '8px' }} />
-                      Google
-                    </CButton>
-                    <CButton color="light" className="mt-2 mx-2" onClick={handleOtp}>
-                      Via Otp
+                      LOGIN VIA GOOGLE
                     </CButton>
                     <div className='mt-3'>
                       New User <Link to="/register">Register here</Link>
