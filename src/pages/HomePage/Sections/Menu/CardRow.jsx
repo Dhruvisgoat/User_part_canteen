@@ -41,6 +41,13 @@ function CardRow({ title, sortOption, searchQuery }) {
   };
 
   useEffect(() => {
+    async function fetchData() {
+      await getFoodList();
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     // Sort the foodList based on the selected sortOption
     if (sortOption === 'name') {
       // Sort by food name
@@ -50,7 +57,6 @@ function CardRow({ title, sortOption, searchQuery }) {
       setFoodList([...foodList].sort((a, b) => a.Price - b.Price));
     }
   }, [sortOption]);
-
 
   const fetchImageUrls = async () => {
     const urls = {};
@@ -71,13 +77,6 @@ function CardRow({ title, sortOption, searchQuery }) {
     }
     setImageUrls(urls);
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      await getFoodList();
-    }
-    fetchData();
-  }, []);
 
   useEffect(() => {
     if (foodList.length > 0) {
@@ -112,8 +111,6 @@ function CardRow({ title, sortOption, searchQuery }) {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDishAdded, setIsDishAdded] = useState(false);
-
-
 
   const addFavourite = async (food) => {
     try {
@@ -166,38 +163,48 @@ function CardRow({ title, sortOption, searchQuery }) {
 
   return (
     <div>
-      {hasItems && (
-        <>
-          <hr />
-          <Typography variant="h4" className='m-3 p-2' sx={{ textAlign: 'center', fontFamily: 'monospace', textTransform: 'uppercase' }}>
-            {title}
-          </Typography>
-          <div className='CardRow' style={{ overflowX: "auto", minWidth: '100%' }}>
-            <div className='CardRow' style={{ display: 'flex', overflowX: 'auto', minWidth: '100%' }}>
-              {isLoading ? (
-                <>
-                  <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-                  <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-                  <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-                  <Skeleton variant="rectangular" width={600} height={394} sx={{ borderRadius: "20px", margin: '0 10px' }} />
-                </>
-              ) : (
-                filteredFoodList.map((food) => (
-                  <Card key={food.id} sx={{ padding: '10px', flex: '0 0 auto', width: '20rem', margin: '0 10px', borderRadius: '30px' }} className='Card'>
-                    <CardMedia
+
+      <>
+        {hasItems && (
+          <>
+            <hr />
+            <h4 className='m-3 p-2' style={{ textAlign: 'center' }} sx={{ textAlign: 'center', fontFamily: 'monospace', textTransform: 'uppercase' }}>
+              {title}
+            </h4>
+
+          </>
+
+        )}
+
+
+        <div className='CardRow' style={{ overflowX: "auto", minWidth: '100%' }}>
+          <div className='CardRow' style={{ display: 'flex', overflowX: 'auto', minWidth: '100%' }}>
+
+            {isLoading ? (
+              <div style={{ margin: '100px 10px 0px 10px', display: 'flex' }}>
+                <Skeleton variant="rectangular" width={330} height={250} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+                <Skeleton variant="rectangular" width={330} height={250} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+                <Skeleton variant="rectangular" width={330} height={250} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+                <Skeleton variant="rectangular" width={330} height={250} sx={{ borderRadius: "20px", margin: '0 10px' }} />
+              </div>
+            ) :
+              (
+                filteredFoodList.map((food) =>
+                (
+                  <Card key={food.id} sx={{ flex: '0 0 auto', width: '15rem', margin: '0 10px', borderRadius: '30px' }} className='Card'>
+                   <CardMedia
                       component="img"
-                      height="200"
+                      height="150"
                       image={imageUrls[food.id] ? imageUrls[food.id] : placeholderImageUrl}
                       alt="no image"
                       sx={{ borderRadius: "20px" }}
                     />
+
                     <CardContent sx={{ textAlign: 'center' }}>
                       <div>
-                        <Typography variant="h6">{food.Name}</Typography>
-                        <Typography >{`One for ₹ ${food.Price}.00`}</Typography>
-
+                        <div >{`${food.Name}: ₹ ${food.Price}.00`} </div>
                       </div>
-                      <CardActions sx={{ justifyContent: 'center' }}>
+                      <div style={{ justifyContent: 'center', display: 'flex' }}>
                         <Button
                           size='small'
                           sx={{ border: '1px solid black', backgroundColor: '#257090' }}
@@ -207,40 +214,32 @@ function CardRow({ title, sortOption, searchQuery }) {
                             handleAddToCart(food);
                             increaseCount(food.id);
                           }}>
-                          +
+                          Add to Cart
                         </Button>
+                        {/* add to favourite  */}
                         <Button
                           size='small'
-                          sx={{ border: '1px solid black' }}
-                          className='m-1'>
-                          {foodCounts[food.id] || 0}
-                        </Button>
-                        <Button
-                          size='small'
-                          sx={{ border: '1px solid black', backgroundColor: '#257090' }}
+                          sx={{ border: '1px solid black',backgroundColor: '#257090' }}
+                          variant='outlined'
                           className='m-1'
-                          variant='contained'
-                          onClick={() => {
-                            handleSubtractToCart(food.id);
-                            decreaseCount(food.id);
-                          }}>
-                          -
+                          onClick={() => addFavourite(food)}>
+                          ❤️
                         </Button>
 
-                      </CardActions>
-                      <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center' }}>
-                        Add/Remove from Cart
-                      </Typography>
-                      <Button onClick={() => addFavourite(food)} sx={{ border: '1px solid grey', marginTop: '5px', borderRadius: '10px' }}>
-                        ❤️ Add to favourites
-                      </Button>
+                      </div>
+
                     </CardContent>
                   </Card>
-                )))}
-            </div>
+                ))
+              )
+
+            }
+
+
+          </div>
         </div>
-        </>
-      )}
+      </>
+
 
       <Dialog
         open={isDialogOpen}

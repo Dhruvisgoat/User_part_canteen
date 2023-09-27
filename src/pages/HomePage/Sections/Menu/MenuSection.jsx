@@ -37,7 +37,7 @@ const MenuSection = () => {
 
   return (
     <StyledContainer>
-      <Typography variant="h2" sx={{ textAlign: 'center' }}>TODAY'S MENU</Typography>
+      <h1 style={{ textAlign: 'center' }}>TODAY'S MENU</h1>
       <hr></hr>
       <StyledSortButtonGroup sx={{ marginTop: "20px", height: '10px', justifyContent: 'flex-end', display: 'flex', }}>
         <Sort sx={{ margin: '10px' }} />
